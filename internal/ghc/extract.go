@@ -62,8 +62,7 @@ func (s *Extract) Repository(repoPath string) (Repo, error) {
 		return repo, err
 	}
 
-	return Repo{
-		Path:    repoPath,
-		Commits: commits,
-	}, nil
+	repo.Commits = commits
+
+	return repo, nil
 }

@@ -165,7 +165,7 @@ func TestMerge_ErrorWhenDestinationIsFile(t *testing.T) {
 
 	repo := ghc.Repo{Commits: []ghc.Commit{commit1, commit1}}
 	err = ghc.Merge(testFile, repo, gitHubEmail)
-	if err != ghc.ErrDestinationMustBeDirectory {
-		t.Fatal("error thrown is not expected")
+	if err.Error() != "fdopendir: not a directory" {
+		t.Fatalf("error thrown is not expected. Having: %v", err)
 	}
 }

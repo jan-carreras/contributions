@@ -1,7 +1,6 @@
 package ghc
 
 import (
-	"errors"
 	"github.com/go-git/go-git/v5"
 	"github.com/go-git/go-git/v5/plumbing"
 	"github.com/go-git/go-git/v5/plumbing/object"
@@ -11,8 +10,6 @@ import (
 	"path"
 	"time"
 )
-
-var ErrDestinationMustBeDirectory = errors.New("destination path must be a directory")
 
 const contributionRepositoryFile = ".contribution_repository"
 const FirstCommitMsg = "init repository"
@@ -76,14 +73,9 @@ func initRepo(dir string, gitHubEmail string) (*git.Repository, error) {
 	return r, commitRaw(r, "init repository", time.Now(), gitHubEmail)
 }
 
-func openCreateRepository(dir string, gitHubEmail string) (*git.Repository, error) {
-	info, err := os.Stat(dir)
-	if os.IsNotExist(err) {
+func createRepository(dir string, gitHubEmail string) (*git.Repository, error) {
+	if _, err := os.Stat(dir); os.IsNotExist(err) {
 		return initRepo(dir, gitHubEmail)
-	}
-
-	if !info.IsDir() {
-		return nil, ErrDestinationMustBeDirectory
 	}
 
 	isEmpty, err := isDirEmpty(dir)
@@ -93,12 +85,16 @@ func openCreateRepository(dir string, gitHubEmail string) (*git.Repository, erro
 	if isEmpty {
 		return initRepo(dir, gitHubEmail)
 	}
+	return nil, nil
+}
 
-	r, err := git.PlainOpen(dir)
-	if err != nil {
-		return nil, err
+func openCreateRepository(dir string, gitHubEmail string) (*git.Repository, error) {
+	r, err := createRepository(dir, gitHubEmail)
+	if r != nil || err != nil {
+		return r, err
 	}
-	return r, nil
+
+	return git.PlainOpen(dir)
 }
 
 func isDirEmpty(dir string) (bool, error) {
