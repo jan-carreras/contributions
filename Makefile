@@ -4,13 +4,12 @@ GOCMD=go
 GOBUILD=$(GOCMD) build
 GOCLEAN=$(GOCMD) clean
 GOTEST=$(GOCMD) test
-GOGET=$(GOCMD) get
 
-all: test build
 test:
-		$(GOTEST) -v ./...
+	$(GOTEST) -v ./...
 clean:
-		$(GOCLEAN)
+	$(GOCLEAN)
 build:
 	$(GOBUILD) -o bin/ghc cmd/ghc/ghc.go
+all: test build
 
