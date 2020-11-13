@@ -110,15 +110,20 @@ func isDirEmpty(dir string) (bool, error) {
 	return len(filenames) == 0, nil
 }
 
+func readCommit(commitTime map[int64]bool) func(c *object.Commit) error {
+	return func(c *object.Commit) error {
+		commitTime[c.Author.When.Unix()] = true
+		return nil
+	}
+}
+
 func getCommitDates(r *git.Repository) (map[int64]bool, error) {
 	commitTime := make(map[int64]bool, 0)
 
 	ref, err := r.Head()
 	if err == plumbing.ErrReferenceNotFound {
 		return commitTime, nil
-	}
-
-	if err != nil {
+	} else if err != nil {
 		return nil, err
 	}
 
@@ -127,14 +132,8 @@ func getCommitDates(r *git.Repository) (map[int64]bool, error) {
 		return nil, err
 	}
 
-	readCommit := func(c *object.Commit) error {
-		commitTime[c.Author.When.Unix()] = true
-		return nil
-	}
-	if err := cIter.ForEach(readCommit); err != nil {
-		return nil, err
-	}
-	return commitTime, nil
+	err = cIter.ForEach(readCommit(commitTime))
+	return commitTime, err
 }
 
 func commit(r *git.Repository, c Commit, gitHubEmail string) error {
