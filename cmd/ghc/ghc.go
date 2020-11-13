@@ -56,20 +56,19 @@ func parseArgs() error {
 
 	flag.Parse()
 
-	if src == "" {
-		return errSrcRequired
+	checkEmpty := map[string]error{
+		src:         errEmailsRequired,
+		dst:         errDstRequired,
+		gitHubEmail: errGitHubRequired,
+		emailsLst:   errEmailsRequired,
 	}
-	if dst == "" {
-		return errDstRequired
-	}
-	if gitHubEmail == "" {
-		return errGitHubRequired
+
+	for v, err := range checkEmpty {
+		if v == "" {
+			return err
+		}
 	}
 
 	emails = strings.Split(emailsLst, ",")
-	if len(emails) == 0 {
-		return errEmailsRequired
-	}
-
 	return nil
 }
