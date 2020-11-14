@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path"
+	"strings"
 	"testing"
 	"time"
 )
@@ -165,7 +166,7 @@ func TestMerge_ErrorWhenDestinationIsFile(t *testing.T) {
 
 	repo := ghc.Repo{Commits: []ghc.Commit{commit1, commit1}}
 	err = ghc.Merge(testFile, repo, gitHubEmail)
-	if err.Error() != "fdopendir: not a directory" {
+	if !strings.HasSuffix(err.Error(), "not a directory") {
 		t.Fatalf("error thrown is not expected. Having: %v", err)
 	}
 }
