@@ -1,9 +1,9 @@
 package ghc_test
 
 import (
-	"fgh/internal/ghc"
 	"github.com/go-git/go-git/v5"
 	"github.com/go-git/go-git/v5/plumbing/object"
+	"github.com/jan-carreras/contributions/internal/ghc"
 	"testing"
 )
 

@@ -16,7 +16,7 @@ build: clean bin/ghc
 
 .PHONY: install
 install:
-	$(GO) install cmd/ghc/ghc.go
+	$(GOCMD) install cmd/ghc/ghc.go
 
 .PHONY: all
 all: test build

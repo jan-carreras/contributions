@@ -1,4 +1,4 @@
-module fgh
+module github.com/jan-carreras/contributions
 
 go 1.14
 

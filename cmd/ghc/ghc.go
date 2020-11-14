@@ -2,9 +2,9 @@ package main
 
 import (
 	"errors"
-	"fgh/internal/ghc"
 	"flag"
 	"fmt"
+	"github.com/jan-carreras/contributions/internal/ghc"
 	"os"
 	"strings"
 )

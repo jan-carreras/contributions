@@ -1,7 +1,7 @@
 package ghc_test
 
 import (
-	"fgh/internal/ghc"
+	"github.com/jan-carreras/contributions/internal/ghc"
 	"io/ioutil"
 	"os"
 	"path/filepath"
