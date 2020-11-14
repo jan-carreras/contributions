@@ -40,9 +40,7 @@ appear as duplicated.
 ## Installation
 
 ```bash
-$ git clone https://github.com/jan-carreras/contributions.git
-$ cd contributions
-$ make install
+$ go install github.com/jan-carreras/contributions/cmd/ghc
 ```
 
 ## Usage
