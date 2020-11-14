@@ -1,26 +1,27 @@
 #!/usr/bin/env make
 
 GOCMD=go
-GOBUILD=$(GOCMD) build
-GOCLEAN=$(GOCMD) clean
-GOTEST=$(GOCMD) test
 
 .PHONY: test
 test:
-	$(GOTEST) -v ./...
+	$(GOCMD) test -v ./...
 
 .PHONY: clean
 clean:
-	@$(GOCLEAN)
+	@$(GOCMD) clean
 	@rm -f bin/*
 
 .PHONY: build
 build: clean bin/ghc
 
+.PHONY: install
+install:
+	$(GO) install cmd/ghc/ghc.go
+
 .PHONY: all
 all: test build
 
 bin/ghc:
-	$(GOBUILD) -ldflags "-s -w" -o bin/ghc cmd/ghc/ghc.go
+	$(GOCMD) build -ldflags "-s -w" -o bin/ghc cmd/ghc/ghc.go
 
 
