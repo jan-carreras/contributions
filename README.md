@@ -40,7 +40,7 @@ appear as duplicated.
 ## Installation
 
 ```bash
-$ go install github.com/jan-carreras/contributions/cmd/ghc
+$ go install github.com/jan-carreras/contributions/cmd/ghc@master
 ```
 
 ## Usage
